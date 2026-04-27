@@ -110,6 +110,7 @@ namespace COMPX323_Generator
 
             // Consider a constraint to ensure someone doesn't have a new employment while they have an entry
             // with a null end date.
+            // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
             string employmentComm = @"CREATE TABLE IF NOT EXISTS Employment (
                 ird_number INTEGER REFERENCES Employees(ird_number),
                 station_address VARCHAR REFERENCES Stations(address),
@@ -121,6 +122,7 @@ namespace COMPX323_Generator
             string incidentComm = @"CREATE TABLE IF NOT EXISTS Incidents (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp DATETIME NOT NULL,
+                type VARCHAR NOT NULL,
                 address VARCHAR,
                 description VARCHAR
             );";
