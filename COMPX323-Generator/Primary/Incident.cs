@@ -21,6 +21,12 @@ namespace COMPX323_Generator.Secondary
             set { _timestamp = value; }
         }
 
+        public string Type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
+
         public string Address
         {
             get { return _address; }
