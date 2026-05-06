@@ -67,7 +67,7 @@ namespace COMPX323_Generator.Entity
             AddDataToTable();
         }
 
-        public void AddDataToTable()
+        private void AddDataToTable()
         {
             Debug.WriteLine("-----");
             Debug.WriteLine($"Name: {_firstName} {_lastName}");

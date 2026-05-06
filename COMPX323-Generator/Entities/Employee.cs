@@ -52,7 +52,7 @@ namespace COMPX323_Generator.Entity
             _badgeNumber = $"{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{Form_DataGenerator.GlobalRandom.Next(1000)}";
         }
 
-        public void AddDataToTable()
+        private void AddDataToTable()
         {
             // Convert the employee and underlying person to an SQL command.
             // Add the person.
