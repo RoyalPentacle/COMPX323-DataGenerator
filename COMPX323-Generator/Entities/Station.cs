@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace COMPX323_Generator.Entity
     public class Station
     {
         private string _address;
+        private static string[] _addressStreetTypes = { " Road Station, ", " Street Station, ", " Avenue Station, ", " Crescent Station, ", " Place Station," , " Boulevard Station, " };
 
         public string Address
         {
@@ -22,6 +25,40 @@ namespace COMPX323_Generator.Entity
             // Query the address to check if it already exists
             // Reroll if it already exists
             // Construct sql command to add station to table.
+            GenerateAddress();
+            AddDataToTable();
+        }
+
+        private void GenerateAddress()
+        {
+            _address = File.ReadLines(@"Data/lname.txt").Skip(Form_DataGenerator.GlobalRandom.Next(1000)).FirstOrDefault();
+            _address += _addressStreetTypes[Form_DataGenerator.GlobalRandom.Next(_addressStreetTypes.Length)];
+            _address += File.ReadLines(@"Data/cities.txt").Skip(Form_DataGenerator.GlobalRandom.Next(96)).FirstOrDefault();
+        }
+
+        private void AddDataToTable()
+        {
+            if (Form_DataGenerator.OracleDB)
+            {
+                bool uniqueAddress = false;
+                while (!uniqueAddress)
+                {
+                    uniqueAddress = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT address FROM A_Stations WHERE address = '{_address}';").HasRows;
+                    if (!uniqueAddress)
+                        GenerateAddress();
+                }
+
+                Debug.WriteLine("-----Station");
+                Debug.WriteLine($"Address: {_address}");
+
+                string comm = $@"INSERT INTO A_Stations (address) VALUES (
+                '{_address}'
+                );";
+            }
+            else
+            {
+                //MongoDB
+            }
         }
     }
 }

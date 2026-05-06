@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace COMPX323_Generator.Entity
     {
         protected string _type;
         protected string _model;
+
+        protected static int _newestID = 0;
 
         public string Type
         {
@@ -23,17 +27,41 @@ namespace COMPX323_Generator.Entity
             set { _model = value; }
         }
 
-        public Asset()
+        public Asset(string type)
         {
-            // randomize type and model
-            // Specifically for equipment, not firearms or vehicles.
+            _type = type;
+            if (type == "EQUIPMENT")
+                _model = File.ReadLines(@"Data/equipment.txt").Skip(Form_DataGenerator.GlobalRandom.Next(83)).FirstOrDefault();
+            if (type == "VEHICLE")
+                _model = File.ReadLines(@"Data/vehicles.txt").Skip(Form_DataGenerator.GlobalRandom.Next(97)).FirstOrDefault();
+            if (type == "FIREARM")
+                _model = File.ReadLines(@"Data/firearms.txt").Skip(Form_DataGenerator.GlobalRandom.Next(94)).FirstOrDefault();
+
+            AddDataToTable();
         }
 
 
-        public virtual void AddDataToTable()
+        private void AddDataToTable()
         {
-            // convert the data to a SQL command, add it.
-            // ID auto increments, so don't worry about it being unique.
+            if (Form_DataGenerator.OracleDB)
+            {
+                Debug.WriteLine("-----Asset");
+                Debug.WriteLine($"Type: {_type}");
+                Debug.WriteLine($"Model: {_model}");
+
+
+                string comm = $@"INSERT INTO A_Assets (type, model) VALUES (
+                '{_type}',
+                '{_model}'
+                );";
+
+                Debug.WriteLine(comm);
+                Form_DataGenerator.ExecuteDBCommand(comm);
+            }
+            else
+            {
+                //MongoDB
+            }
         }
 
     }

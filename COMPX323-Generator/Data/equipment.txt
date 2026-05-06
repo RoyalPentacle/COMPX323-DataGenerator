@@ -1,4 +1,3 @@
-Make,Model
 Motorola,APX 8000 Radio
 Motorola,APX 6000 Radio
 Harris,XL-200P Radio

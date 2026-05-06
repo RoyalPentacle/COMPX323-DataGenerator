@@ -18,6 +18,8 @@ namespace COMPX323_Generator.Entity
 
         private static string[] _phonePrefix = { "020", "021", "022", "027", "028" };
         private static string[] _addressStreetTypes = { " Road, ", " Street, ", " Avenue, ", " Crescent, ", " Place, ", " Boulevard, " };
+
+        protected static int _newestID = 0; // I really hope the auto incrementing ID starts at 0.
         
 
         public string FirstName
@@ -69,7 +71,7 @@ namespace COMPX323_Generator.Entity
 
         private void AddDataToTable()
         {
-            Debug.WriteLine("-----");
+            Debug.WriteLine("-----Person");
             Debug.WriteLine($"Name: {_firstName} {_lastName}");
             Debug.WriteLine($"DoB: {_dateOfBirth.ToShortDateString()}");
             Debug.WriteLine($"Address: {_address}");
@@ -80,15 +82,16 @@ namespace COMPX323_Generator.Entity
             if (Form_DataGenerator.OracleDB)
             {
                 string comm = $@"INSERT INTO A_Persons (first_name, last_name, phone_number, address, date_of_birth) VALUES (
-                    '{_firstName}',
-                    '{_lastName}',
-                    '{_phoneNumber}',
-                    '{_address}',
-                    DATE '{_dateOfBirth.Year}-{_dateOfBirth.Month}-{_dateOfBirth.Day}'
+                '{_firstName}',
+                '{_lastName}',
+                '{_phoneNumber}',
+                '{_address}',
+                DATE '{_dateOfBirth.Year}-{_dateOfBirth.Month}-{_dateOfBirth.Day}'
                 );";
 
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+                _newestID++;
             }
             else
             {

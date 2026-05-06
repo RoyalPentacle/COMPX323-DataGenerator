@@ -50,8 +50,8 @@ namespace COMPX323_Generator
                 GlobalRandom = new Random(textBox_RandomSeed.Text.GetHashCode());
             else
                 GlobalRandom = new Random();
-
-
+            
+            
             if (EstablishDBConnection())
             {
                 DropExistingTables();
@@ -273,7 +273,30 @@ namespace COMPX323_Generator
             {
                 Employee e = new Employee();
             }
-            Debug.WriteLine("test");
+
+            // Stations
+            for (int i = 0; i < _numStations; i++)
+            {
+                Station s = new Station();
+            }
+
+            // Equipment
+            for (int i = 0; i < _numAssets; i++)
+            {
+                Asset a = new Asset("EQUIPMENT");
+            }
+
+            // Vehicle
+            for (int i = 0; i < _numVehicles; i++)
+            {
+                Vehicle v = new Vehicle();
+            }
+
+            // Firearm
+            for (int i = 0; i < _numFirearms; i++)
+            {
+                Firearm f = new Firearm();
+            }
         }
     }
 }

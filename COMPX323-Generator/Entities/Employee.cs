@@ -49,7 +49,7 @@ namespace COMPX323_Generator.Entity
 
         private void GenerateBadge()
         {
-            _badgeNumber = $"{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{Form_DataGenerator.GlobalRandom.Next(1000)}";
+            _badgeNumber = $"{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{(char)Form_DataGenerator.GlobalRandom.Next(65, 91)}{Form_DataGenerator.GlobalRandom.Next(1000).ToString().PadLeft(3, '0')}";
         }
 
         private void AddDataToTable()
@@ -63,7 +63,6 @@ namespace COMPX323_Generator.Entity
 
             if (Form_DataGenerator.OracleDB)
             {
-                int personID = Form_DataGenerator.ExecuteOracleDBQuery($"SELECT id FROM A_Persons ORDER BY id_column DESC FETCH FIRST 1 ROW ONLY;").GetInt32(0);
                 bool uniqueIRD = false;
                 bool uniqueBadge = false;
                 while (!uniqueIRD)
@@ -80,22 +79,26 @@ namespace COMPX323_Generator.Entity
                         GenerateBadge();
                 }
 
-                Debug.WriteLine("-----");
+                Debug.WriteLine("-----Employee");
                 Debug.WriteLine($"IRD: {_irdNumber}");
-                Debug.WriteLine($"PersonID: {personID}");
+                Debug.WriteLine($"PersonID: {_newestID}");
                 Debug.WriteLine($"Rank: {_rank}");
                 Debug.WriteLine($"Badge: {_badgeNumber}");
 
 
                 string comm = $@"INSERT INTO A_Employees (ird_number, person_id, rank, badge_number) VALUES (
-                    '{_irdNumber}',
-                    {personID},
-                    '{_rank}',
-                    '{_badgeNumber}'
+                '{_irdNumber}',
+                {_newestID},
+                '{_rank}',
+                '{_badgeNumber}'
                 );";
 
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+            }
+            else
+            {
+                //MongoDB
             }
         }
 
