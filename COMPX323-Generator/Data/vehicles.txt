@@ -1,0 +1,97 @@
+Ford,Crown Victoria Police Interceptor
+Ford,Police Interceptor Sedan
+Ford,Police Interceptor Utility
+Ford,Taurus Police Interceptor
+Ford,Explorer Police Interceptor
+Ford,Fusion Police Responder Hybrid
+Ford,Mustang SSP
+Chevrolet,Caprice PPV
+Chevrolet,Impala Police
+Chevrolet,Tahoe PPV
+Chevrolet,Silverado SSV
+Chevrolet,Malibu Police
+Chevrolet,Blazer PPV
+Dodge,Charger Pursuit
+Dodge,Durango Pursuit
+Dodge,Magnum Police
+Dodge,Challenger Police Package
+Chrysler,300 Police Package
+Holden,Commodore (Police)
+Holden,Caprice (Police)
+Toyota,Camry Police
+Toyota,Corolla Police
+Toyota,Land Cruiser Police
+Toyota,Prado Police
+Toyota,Hilux Police
+Toyota,Kluger Police
+Nissan,Altima Police
+Nissan,Maxima Police
+Nissan,Pathfinder Police
+Nissan,X-Trail Police
+Hyundai,Sonata Police
+Hyundai,i45 Police
+Hyundai,Santa Fe Police
+Hyundai,Tucson Police
+Kia,Stinger Police
+Kia,Sorento Police
+Kia,Optima Police
+Kia,Sportage Police
+Volkswagen,Passat Police
+Volkswagen,Tiguan Police
+Volkswagen,Golf Police
+Volkswagen,Amarok Police
+BMW,3 Series Police
+BMW,5 Series Police
+BMW,X5 Police
+BMW,X3 Police
+Mercedes-Benz,C-Class Police
+Mercedes-Benz,E-Class Police
+Mercedes-Benz,Sprinter Patrol Van
+Mercedes-Benz,GLC Police
+Audi,A4 Police
+Audi,A6 Police
+Audi,Q5 Police
+Audi,Q7 Police
+Peugeot,508 Police
+Peugeot,3008 Police
+Peugeot,5008 Police
+Renault,Megane Police
+Renault,Koleos Police
+Renault,Talisman Police
+Skoda,Octavia Police
+Skoda,Superb Police
+Skoda,Kodiaq Police
+Skoda,Karoq Police
+Subaru,Liberty Police
+Subaru,Outback Police
+Subaru,Forester Police
+Mazda,6 Police
+Mazda,CX-5 Police
+Mazda,CX-9 Police
+Mitsubishi,Lancer Police
+Mitsubishi,Outlander Police
+Mitsubishi,Pajero Police
+Volvo,S60 Police
+Volvo,S90 Police
+Volvo,XC60 Police
+Volvo,XC90 Police
+Tesla,Model S Police
+Tesla,Model 3 Police
+Tesla,Model Y Police
+Tesla,Model X Police
+Jaguar,XF Police
+Jaguar,F-Pace Police
+Land Rover,Discovery Police
+Land Rover,Range Rover Police
+Land Rover,Defender Police
+Alfa Romeo,Giulia Police
+Alfa Romeo,Stelvio Police
+Genesis,G80 Police
+Genesis,G70 Police
+Acura,TLX Police
+Lexus,ES Police
+Lexus,RX Police
+Infiniti,Q50 Police
+Infiniti,QX60 Police
+Proton,Preve Police
+Perodua,Bezza Police

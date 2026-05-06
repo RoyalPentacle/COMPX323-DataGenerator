@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMPX323_Generator.Primary
+namespace COMPX323_Generator.Entity
 {
     public class Asset
     {

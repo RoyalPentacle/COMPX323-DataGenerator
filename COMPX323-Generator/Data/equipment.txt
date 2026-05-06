@@ -1,0 +1,84 @@
+Make,Model
+Motorola,APX 8000 Radio
+Motorola,APX 6000 Radio
+Harris,XL-200P Radio
+Kenwood,NX-5000 Radio
+Sepura,SC20 Handheld Radio
+Axon,Body 3 Camera
+Axon,Body 4 Camera
+WatchGuard,4RE In-Car Video System
+Panasonic,Toughbook CF-33
+Getac,F110 Rugged Tablet
+Zebra,TC77 Mobile Computer
+Taser,X26P
+Taser,7 Conducted Energy Weapon
+ASP,Talon Expandable Baton
+Monadnock,AutoLock Baton
+Smith & Wesson,Model 100 Handcuffs
+Peerless,700C Chain Handcuffs
+Hiatt,Speedcuff
+Safariland,Model 6360 Duty Holster
+Safariland,Model 7304 Tactical Holster
+5.11 Tactical,Rush 24 Backpack
+Blackhawk,Omega Elite Vest
+Point Blank,Alpha Elite Vest
+Safariland,Hardwire Level IIIA Vest
+Armor Express,Revolution Vest
+MSA,Gallet TC 800 Helmet
+Team Wendy,EXFIL Ballistic Helmet
+Revision,Desert Locust Goggles
+Oakley,SI Ballistic M Frame
+Streamlight,Stinger DS Flashlight
+SureFire,X300 WeaponLight
+Maglite,ML300L Flashlight
+Pelican,7600 Tactical Flashlight
+Zoll,X Series Monitor/Defibrillator
+Philips,HeartStart FRx AED
+Laerdal,Resusci Anne Kit
+North American Rescue,Trauma Kit
+Condor,Rip-Away EMT Pouch
+Garmin,Foretrex 801 GPS
+Garmin,eTrex 32x GPS
+Trimble,R2 GNSS Receiver
+FLIR,Scout TK Thermal Camera
+FLIR,K2 Thermal Imager
+L3Harris,Night Vision Goggles
+ATN,PVS14 Night Vision
+Bushnell,Equinox Z Night Vision
+DJI,Mavic 2 Enterprise Drone
+DJI,Mavic 3 Enterprise Drone
+Autel,EVO II Dual Drone
+Parrot,Anafi USA Drone
+Skydio,X2D Drone
+Intoximeters,Alco-Sensor FST
+Dräger,Alcotest 6810
+Lion Laboratories,Alcolmeter 700
+Kustom Signals,ProLaser 4
+Stalker,Radar Speed Gun
+Decatur Electronics,Genesis II Radar
+3M,Peltor ComTac III Headset
+Howard Leight,Impact Sport Earmuffs
+Avon,C50 Gas Mask
+MSA,Millennium Gas Mask
+Honeywell,First Responder Respirator
+Gerber,StrongArm Knife
+Leatherman,Wave+ Multitool
+Victorinox,Rescue Tool
+ASP,Key Defender OC Spray
+Sabre,Red Pepper Spray
+Def-Tec,First Defense OC Spray
+CTS,7290M Flashbang
+Defense Technology,Triple-Chaser Grenade
+Zarc International,Viper CS Grenade
+Safariland,Model 6004 Drop Leg Platform
+Blackhawk,Serpa Duty Holster
+5.11 Tactical,TDU Belt
+Uncle Mike's,Duty Belt System
+Bianchi,Accumold Elite Belt
+Safariland,Model 774 Rifle Magazine Pouch
+Condor,Triple Kangaroo Mag Pouch
+Maxpedition,Falcon-II Backpack
+CamelBak,Motherlode Hydration Pack
+Pelican,1510 Protector Case
+Nanuk,935 Hard Case
+SKB,iSeries Case

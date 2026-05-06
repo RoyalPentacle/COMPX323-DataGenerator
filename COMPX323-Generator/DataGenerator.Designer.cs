@@ -40,8 +40,8 @@
             this.textBox_Username = new System.Windows.Forms.TextBox();
             this.textBox_Password = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton_Oracle = new System.Windows.Forms.RadioButton();
             this.radioButton_MongoDB = new System.Windows.Forms.RadioButton();
+            this.radioButton_Oracle = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,32 +146,32 @@
             // 
             this.panel1.Controls.Add(this.radioButton_MongoDB);
             this.panel1.Controls.Add(this.radioButton_Oracle);
-            this.panel1.Location = new System.Drawing.Point(13, 108);
+            this.panel1.Location = new System.Drawing.Point(0, 108);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(401, 30);
             this.panel1.TabIndex = 13;
+            // 
+            // radioButton_MongoDB
+            // 
+            this.radioButton_MongoDB.AutoSize = true;
+            this.radioButton_MongoDB.Location = new System.Drawing.Point(99, 3);
+            this.radioButton_MongoDB.Name = "radioButton_MongoDB";
+            this.radioButton_MongoDB.Size = new System.Drawing.Size(106, 24);
+            this.radioButton_MongoDB.TabIndex = 1;
+            this.radioButton_MongoDB.Text = "MongoDB";
+            this.radioButton_MongoDB.UseVisualStyleBackColor = true;
             // 
             // radioButton_Oracle
             // 
             this.radioButton_Oracle.AutoSize = true;
             this.radioButton_Oracle.Checked = true;
-            this.radioButton_Oracle.Location = new System.Drawing.Point(6, 3);
+            this.radioButton_Oracle.Location = new System.Drawing.Point(13, 3);
             this.radioButton_Oracle.Name = "radioButton_Oracle";
             this.radioButton_Oracle.Size = new System.Drawing.Size(80, 24);
             this.radioButton_Oracle.TabIndex = 0;
             this.radioButton_Oracle.TabStop = true;
             this.radioButton_Oracle.Text = "Oracle";
             this.radioButton_Oracle.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_MongoDB
-            // 
-            this.radioButton_MongoDB.AutoSize = true;
-            this.radioButton_MongoDB.Location = new System.Drawing.Point(92, 3);
-            this.radioButton_MongoDB.Name = "radioButton_MongoDB";
-            this.radioButton_MongoDB.Size = new System.Drawing.Size(106, 24);
-            this.radioButton_MongoDB.TabIndex = 1;
-            this.radioButton_MongoDB.Text = "MongoDB";
-            this.radioButton_MongoDB.UseVisualStyleBackColor = true;
             // 
             // Form_DataGenerator
             // 

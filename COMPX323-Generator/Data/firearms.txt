@@ -1,0 +1,94 @@
+Glock,G17
+Glock,G19
+Glock,G22
+Glock,G23
+Glock,G45
+SIG Sauer,P226
+SIG Sauer,P229
+SIG Sauer,P320
+Smith & Wesson,M&P9
+Smith & Wesson,M&P40
+Beretta,92FS
+Beretta,PX4 Storm
+Heckler & Koch,VP9
+Heckler & Koch,P30
+Heckler & Koch,USP
+FN,509
+FN,FNS-9
+Walther,PPQ
+Walther,PDP
+CZ,75 SP-01
+Colt,M1911
+Springfield Armory,XD-M
+Ruger,SR9
+Canik,TP9
+IWI,Jericho 941
+Remington,870 Police
+Mossberg,500
+Mossberg,590A1
+Benelli,M3
+Benelli,M4
+Winchester,SXP Defender
+Franchi,SAS 12
+Kel-Tec,KSG
+Ithaca,37 Defense
+Fabarm,FP6
+FN,SCAR-L
+FN,SCAR-H
+Colt,M4 Carbine
+Colt,LE6920
+Daniel Defense,DDM4
+Smith & Wesson,M&P15
+SIG Sauer,MCX
+Heckler & Koch,HK416
+Heckler & Koch,G36
+Steyr,AUG
+IWI,Tavor X95
+Bushmaster,XM15
+Ruger,Mini-14
+Norinco,Type 56
+Kalashnikov,AK-47
+Kalashnikov,AK-74
+Zastava,M70
+CZ,Bren 2
+Beretta,ARX160
+FN,F2000
+Tikka,T3x Tactical
+Remington,700 Police
+Savage,110 Tactical
+Accuracy International,AX308
+Sako,TRG 22
+Sako,TRG 42
+Steyr,SSG 08
+Barrett,M82
+Barrett,M107
+CheyTac,M200
+Desert Tech,SRS-A2
+FN,Ballista
+SIG Sauer,SG 550
+SIG Sauer,SG 552
+Heckler & Koch,MP5
+Heckler & Koch,MP7
+FN,P90
+Uzi,Model B
+B&T,MP9
+CZ,Scorpion EVO 3
+IWI,Micro Uzi
+Kalashnikov,PP-19 Bizon
+Beretta,PMX
+Thompson,M1A1
+MAC,MAC-10
+MAC,MAC-11
+Ruger,PC Carbine
+Kel-Tec,SUB-2000
+Hi-Point,995 Carbine
+Marlin,1894
+Winchester,Model 94
+Henry,Big Boy
+Browning,BAR
+Springfield Armory,M1A
+FN,FAL
+Heckler & Koch,HK417
+SIG Sauer,716
+DS Arms,SA58
+Norinco,M14

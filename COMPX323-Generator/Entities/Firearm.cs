@@ -1,11 +1,11 @@
-﻿using COMPX323_Generator.Primary;
+﻿using COMPX323_Generator.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMPX323_Generator.Secondary
+namespace COMPX323_Generator.Entity
 {
     public class Firearm : Asset
     {
