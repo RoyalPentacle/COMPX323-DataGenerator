@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite;
+using Oracle.ManagedDataAccess.Client;
 
 namespace COMPX323_Generator
 {
@@ -22,9 +22,7 @@ namespace COMPX323_Generator
         // The random to be used for all random number generation, so that the output is the same for any given seed.
         public static Random GlobalRandom;
 
-        // SQLite specific stuff?
-        private static string _databasePath = "Data Source=policeDB323.db";
-        public static SQLiteConnection conn;
+        private static OracleConnection conn;
 
         // Default to small dataset size.
         private static int _numPersons = 20;
@@ -44,135 +42,183 @@ namespace COMPX323_Generator
             else
                 GlobalRandom = new Random();
 
-            EstablishDBConnection();
-            DropExistingTables();
-            CreateTables();
-            SetDatasetSize(radioButton_LargeDataset.Checked);
-            CreateDataset();
+            if (EstablishDBConnection())
+            {
+                DropExistingTables();
+                CreateTables();
+                SetDatasetSize(radioButton_LargeDataset.Checked);
+                CreateDataset();
+            }
         }
 
-        private void EstablishDBConnection()
+        private bool EstablishDBConnection()
         {
-            conn = new SQLiteConnection(_databasePath);
-            conn.Open();
+            
+            if (textBox_DataSource.Text.Length == 0 || textBox_Username.Text.Length == 0 || textBox_Username.Text.Length == 0)
+            {
+                MessageBox.Show("Please enter database credentials.");
+                return false;
+            }
+
+            if (radioButton_Oracle.Checked)
+            {
+                string connString = $"User Id={textBox_Username.Text};Password={textBox_Password.Text};Data Source={textBox_DataSource.Text};";
+
+                try
+                {
+                    conn = new OracleConnection(connString);
+                    conn.Open(); // Why isn't this a TryOpen that does a true/false with an out for an error message? Billion dollar company btw.
+                }
+                catch (Exception ex) // If the connection fails to open, tell them why.
+                {
+                    MessageBox.Show(ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                // MongoDB stuff.
+                MessageBox.Show("MongoDB is currently unsupported.");
+                return false;
+            }
+            return true;
         }
 
         private void ExecuteDBCommand(string command)
         {
-            using (SQLiteCommand cmd = conn.CreateCommand())
+            if (radioButton_Oracle.Checked)
             {
-                cmd.CommandText = command;
-                cmd.ExecuteNonQuery();
+                using (OracleCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = command;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                //MongoDB
             }
         }
 
         private void DropExistingTables()
         {
-            string comm = @"PRAGMA foreign_keys = OFF;
-                DROP TABLE IF EXISTS Persons;
-                DROP TABLE IF EXISTS Employees;
-                DROP TABLE IF EXISTS Stations;
-                DROP TABLE IF EXISTS Employment;
-                DROP TABLE IF EXISTS Incidents;
-                DROP TABLE IF EXISTS Involved;
-                DROP TABLE IF EXISTS Assets;
-                DROP TABLE IF EXISTS Vehicles;
-                DROP TABLE IF EXISTS Firearms;
-                DROP TABLE IF EXISTS Issued;
-                PRAGMA foreign_keys = ON;
-            ";
-
+            string comm = "";
+            if (radioButton_Oracle.Checked)
+            {
+                comm = @"DROP TABLE IF EXISTS A_Persons CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Employees CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Stations CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Employment CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Incidents CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Involved CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Assets CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Vehicles CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Firearms CASCADE CONSTRAINTS;
+                DROP TABLE IF EXISTS A_Issued CASCADE CONSTRAINTS;
+                ";
+            }
+            else
+            {
+                //MongoDB
+            }
             ExecuteDBCommand(comm);
         }
 
         private void CreateTables()
         {
-            string personComm = @"CREATE TABLE IF NOT EXISTS Persons (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                first_name VARCHAR NOT NULL,
-                last_name VARCHAR NOT NULL,
-                phone_number VARCHAR,
-                address VARCHAR,
+            if (radioButton_Oracle.Checked)
+            {
+                string personComm = @"CREATE TABLE IF NOT EXISTS Persons (
+                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                first_name VARCHAR(50) NOT NULL,
+                last_name VARCHAR(50) NOT NULL,
+                phone_number VARCHAR(20),
+                address VARCHAR(50),
                 date_of_birth DATE
-            );";
+                );";
 
-            // Constrain ird_number to just numerical inputs, but as a VARCHAR.
-            string employeeComm = @"CREATE TABLE IF NOT EXISTS Employees (
+                // Constrain ird_number to just numerical inputs, but as a VARCHAR.
+                string employeeComm = @"CREATE TABLE IF NOT EXISTS Employees (
                 ird_number VARCHAR PRIMARY KEY,
                 person_id INTEGER UNIQUE REFERENCES Persons(id),
                 rank VARCHAR NOT NULL,
                 badge_number INTEGER UNIQUE
-            );";
+                );";
 
-            string stationComm = @"CREATE TABLE IF NOT EXISTS Stations (
+                string stationComm = @"CREATE TABLE IF NOT EXISTS Stations (
                 address VARCHAR PRIMARY KEY
-            );";
+                );";
 
-            // Consider a constraint to ensure someone doesn't have a new employment while they have an entry
-            // with a null end date.
-            // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
-            string employmentComm = @"CREATE TABLE IF NOT EXISTS Employment (
+                // Consider a constraint to ensure someone doesn't have a new employment while they have an entry
+                // with a null end date.
+                // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
+                string employmentComm = @"CREATE TABLE IF NOT EXISTS Employment (
                 ird_number INTEGER REFERENCES Employees(ird_number),
                 station_address VARCHAR REFERENCES Stations(address),
                 start_date DATE NOT NULL,
                 end_date DATE,
                 PRIMARY KEY(ird_number, station_address, start_date)
-            );";
+                );";
 
-            string incidentComm = @"CREATE TABLE IF NOT EXISTS Incidents (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                string incidentComm = @"CREATE TABLE IF NOT EXISTS Incidents (
+                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 timestamp DATETIME NOT NULL,
                 type VARCHAR NOT NULL,
                 address VARCHAR,
                 description VARCHAR
-            );";
+                );";
 
-            // Constraints on role to act as an enum? Officer, suspect, dispatcher, etc?
-            string involvedComm = @"CREATE TABLE IF NOT EXISTS Involved (
+                // Constraints on role to act as an enum? Officer, suspect, dispatcher, etc?
+                string involvedComm = @"CREATE TABLE IF NOT EXISTS Involved (
                 person_id INTEGER REFERENCES Persons(id),
                 incident_id INTEGER REFERENCES Incidents(id),
                 role VARCHAR NOT NULL,
                 description VARCHAR,
                 PRIMARY KEY(person_id, incident_id)
-            );";
+                );";
 
-            string assetComm = @"CREATE TABLE IF NOT EXISTS Assets (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                string assetComm = @"CREATE TABLE IF NOT EXISTS Assets (
+                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 type VARCHAR NOT NULL,
                 model VARCHAR NOT NULL
-            );";
+                );";
 
-            // Add constraint ensuring matching asset_id has type 'VEHICLE', additional vehicle info.
-            string vehicleComm = @"CREATE TABLE IF NOT EXISTS Vehicles (
-                registration_number INTEGER PRIMARY KEY,
+                // Add constraint ensuring matching asset_id has type 'VEHICLE', additional vehicle info.
+                string vehicleComm = @"CREATE TABLE IF NOT EXISTS Vehicles (
+                registration_number VARCHAR PRIMARY KEY,
                 asset_id INTEGER UNIQUE REFERENCES Assets(id)
-            );";
+                );";
 
-            // Add constraint ensuring matching asset_id has type 'FIREARM', or pistol, rifle, etc. idk
-            // Add additional firearm info?
-            string firearmComm = @"CREATE TABLE IF NOT EXISTS Firearms (
-                serial_number INTEGER PRIMARY KEY,
+                // Add constraint ensuring matching asset_id has type 'FIREARM', or pistol, rifle, etc. idk
+                // Add additional firearm info?
+                string firearmComm = @"CREATE TABLE IF NOT EXISTS Firearms (
+                serial_number VARCHAR PRIMARY KEY,
                 asset_id INTEGER UNIQUE REFERENCES Assets(id)
-            );";
+                );";
 
-            string issuedComm = @"CREATE TABLE IF NOT EXISTS Issued (
+                string issuedComm = @"CREATE TABLE IF NOT EXISTS Issued (
                 ird_number INTEGER REFERENCES Employees(ird_number),
                 asset_id INTEGER REFERENCES Assets(id),
                 date_issued DATETIME NOT NULL,
                 date_returned DATETIME,
                 PRIMARY KEY(ird_number, asset_id, date_issued)
-            );";
+                );";
 
-            ExecuteDBCommand(personComm);
-            ExecuteDBCommand(employeeComm);
-            ExecuteDBCommand(stationComm);
-            ExecuteDBCommand(employmentComm);
-            ExecuteDBCommand(incidentComm);
-            ExecuteDBCommand(involvedComm);
-            ExecuteDBCommand(assetComm);
-            ExecuteDBCommand(vehicleComm);
-            ExecuteDBCommand(firearmComm);
-            ExecuteDBCommand(issuedComm);
+                ExecuteDBCommand(personComm);
+                ExecuteDBCommand(employeeComm);
+                ExecuteDBCommand(stationComm);
+                ExecuteDBCommand(employmentComm);
+                ExecuteDBCommand(incidentComm);
+                ExecuteDBCommand(involvedComm);
+                ExecuteDBCommand(assetComm);
+                ExecuteDBCommand(vehicleComm);
+                ExecuteDBCommand(firearmComm);
+                ExecuteDBCommand(issuedComm);
+            }
+            else
+            {
+                //MongoDB
+            }
         }
 
         private void SetDatasetSize(bool largeDataset)
