@@ -16,6 +16,9 @@ namespace COMPX323_Generator.Entity
 
         private string[] _officerRanks = { "Constable", "Senior Constable", "Sergeant", "Senior Sergeant"};
 
+        private static HashSet<string> _usedIRD = new HashSet<string>();
+        private static HashSet<string> _usedBadge = new HashSet<string>();
+
         public string IrdNumber
         {
             get { return _irdNumber; }
@@ -67,14 +70,14 @@ namespace COMPX323_Generator.Entity
                 bool uniqueBadge = false;
                 while (!uniqueIRD)
                 {
-                    uniqueIRD = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT ird_number FROM A_Employees WHERE ird_number = '{_irdNumber}';").HasRows;
+                    uniqueIRD = !_usedIRD.Contains(_irdNumber);
                     if (!uniqueIRD)
                         GenerateIRD();
                 }
 
                 while (!uniqueBadge)
                 {
-                    uniqueBadge = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT badge_number FROM A_Employees WHERE badge_number = '{_badgeNumber}';").HasRows;
+                    uniqueBadge = !_usedBadge.Contains(_badgeNumber);
                     if (!uniqueBadge)
                         GenerateBadge();
                 }
@@ -91,10 +94,12 @@ namespace COMPX323_Generator.Entity
                 {_newestID},
                 '{_rank}',
                 '{_badgeNumber}'
-                );";
+                )";
 
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+                _usedIRD.Add(_irdNumber);
+                _usedBadge.Add(_badgeNumber);
             }
             else
             {

@@ -19,7 +19,7 @@ namespace COMPX323_Generator.Entity
         private static string[] _phonePrefix = { "020", "021", "022", "027", "028" };
         private static string[] _addressStreetTypes = { " Road, ", " Street, ", " Avenue, ", " Crescent, ", " Place, ", " Boulevard, " };
 
-        protected static int _newestID = 0; // I really hope the auto incrementing ID starts at 0.
+        protected static int _newestID = 0;
         
 
         public string FirstName
@@ -87,7 +87,7 @@ namespace COMPX323_Generator.Entity
                 '{_phoneNumber}',
                 '{_address}',
                 DATE '{_dateOfBirth.Year}-{_dateOfBirth.Month}-{_dateOfBirth.Day}'
-                );";
+                )";
 
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);

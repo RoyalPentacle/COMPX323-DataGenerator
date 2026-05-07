@@ -53,10 +53,11 @@ namespace COMPX323_Generator.Entity
                 string comm = $@"INSERT INTO A_Assets (type, model) VALUES (
                 '{_type}',
                 '{_model}'
-                );";
+                )";
 
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+                _newestID++;
             }
             else
             {

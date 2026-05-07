@@ -74,7 +74,7 @@ namespace COMPX323_Generator
             {
                 _oracleDB = true;
                 string connString = $"User Id={textBox_Username.Text};Password={textBox_Password.Text};Data Source={textBox_DataSource.Text};";
-
+                
                 try
                 {
                     conn = new OracleConnection(connString);
@@ -127,17 +127,27 @@ namespace COMPX323_Generator
             string comm = "";
             if (_oracleDB)
             {
-                comm = @"DROP TABLE IF EXISTS A_Persons CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Employees CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Stations CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Employment CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Incidents CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Involved CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Assets CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Vehicles CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Firearms CASCADE CONSTRAINTS;
-                DROP TABLE IF EXISTS A_Issued CASCADE CONSTRAINTS;
-                ";
+                comm = @"DROP TABLE IF EXISTS A_Persons CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Employees CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Stations CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Employment CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Incidents CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Involved CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Assets CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Vehicles CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Firearms CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                comm = @"DROP TABLE IF EXISTS A_Issued CASCADE CONSTRAINTS";
+                ExecuteDBCommand(comm);
+                
             }
             else
             {
@@ -157,74 +167,74 @@ namespace COMPX323_Generator
                 phone_number VARCHAR(20),
                 address VARCHAR(50),
                 date_of_birth DATE
-                );";
+                )";
 
                 // Constrain ird_number to just numerical inputs, but as a VARCHAR.
                 string employeeComm = @"CREATE TABLE IF NOT EXISTS A_Employees (
-                ird_number VARCHAR PRIMARY KEY,
+                ird_number VARCHAR(11) PRIMARY KEY,
                 person_id INTEGER UNIQUE REFERENCES A_Persons(id),
-                rank VARCHAR NOT NULL,
+                rank VARCHAR(20) NOT NULL,
                 badge_number VARCHAR(6) UNIQUE
-                );";
+                )";
 
                 string stationComm = @"CREATE TABLE IF NOT EXISTS A_Stations (
-                address VARCHAR PRIMARY KEY
-                );";
+                address VARCHAR(50) PRIMARY KEY
+                )";
 
                 // Consider a constraint to ensure someone doesn't have a new employment while they have an entry
                 // with a null end date.
                 // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
                 string employmentComm = @"CREATE TABLE IF NOT EXISTS A_Employment (
-                ird_number INTEGER REFERENCES A_Employees(ird_number),
-                station_address VARCHAR REFERENCES A_Stations(address),
+                ird_number VARCHAR(11) REFERENCES A_Employees(ird_number),
+                station_address VARCHAR(50) REFERENCES A_Stations(address),
                 start_date DATE NOT NULL,
                 end_date DATE,
                 PRIMARY KEY(ird_number, station_address, start_date)
-                );";
+                )";
 
                 string incidentComm = @"CREATE TABLE IF NOT EXISTS A_Incidents (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                timestamp DATETIME NOT NULL,
-                type VARCHAR NOT NULL,
-                address VARCHAR,
-                description VARCHAR
-                );";
+                timestamp DATE NOT NULL,
+                type VARCHAR(10) NOT NULL,
+                address VARCHAR(50),
+                description VARCHAR(200)
+                )";
 
                 // Constraints on role to act as an enum? Officer, suspect, dispatcher, etc?
                 string involvedComm = @"CREATE TABLE IF NOT EXISTS A_Involved (
                 person_id INTEGER REFERENCES A_Persons(id),
                 incident_id INTEGER REFERENCES A_Incidents(id),
-                role VARCHAR NOT NULL,
-                description VARCHAR,
+                role VARCHAR(10) NOT NULL,
+                description VARCHAR(200),
                 PRIMARY KEY(person_id, incident_id)
-                );";
+                )";
 
                 string assetComm = @"CREATE TABLE IF NOT EXISTS A_Assets (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                type VARCHAR NOT NULL,
-                model VARCHAR NOT NULL
-                );";
+                type VARCHAR(10) NOT NULL,
+                model VARCHAR(50) NOT NULL
+                )";
 
                 // Add constraint ensuring matching asset_id has type 'VEHICLE', additional vehicle info.
                 string vehicleComm = @"CREATE TABLE IF NOT EXISTS A_Vehicles (
-                registration_number VARCHAR PRIMARY KEY,
+                registration_number VARCHAR(6) PRIMARY KEY,
                 asset_id INTEGER UNIQUE REFERENCES A_Assets(id)
-                );";
+                )";
 
                 // Add constraint ensuring matching asset_id has type 'FIREARM', or pistol, rifle, etc. idk
                 // Add additional firearm info?
                 string firearmComm = @"CREATE TABLE IF NOT EXISTS A_Firearms (
-                serial_number VARCHAR PRIMARY KEY,
+                serial_number VARCHAR(8) PRIMARY KEY,
                 asset_id INTEGER UNIQUE REFERENCES A_Assets(id)
-                );";
+                )";
 
                 string issuedComm = @"CREATE TABLE IF NOT EXISTS A_Issued (
-                ird_number INTEGER REFERENCES A_Employees(ird_number),
+                ird_number VARCHAR(11) REFERENCES A_Employees(ird_number),
                 asset_id INTEGER REFERENCES A_Assets(id),
-                date_issued DATETIME NOT NULL,
-                date_returned DATETIME,
+                date_issued DATE NOT NULL,
+                date_returned DATE,
                 PRIMARY KEY(ird_number, asset_id, date_issued)
-                );";
+                )";
 
                 ExecuteDBCommand(personComm);
                 ExecuteDBCommand(employeeComm);

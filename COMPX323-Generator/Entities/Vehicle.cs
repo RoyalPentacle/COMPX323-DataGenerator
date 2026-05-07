@@ -12,6 +12,7 @@ namespace COMPX323_Generator.Entity
     public class Vehicle : Asset
     {
         private string _registrationNumber;
+        private static HashSet<string> _usedRego = new HashSet<string>();
 
         public string RegistrationNumber
         {
@@ -44,7 +45,7 @@ namespace COMPX323_Generator.Entity
                 bool uniqueRego = false;
                 while (!uniqueRego)
                 {
-                    uniqueRego = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT registration_number FROM A_Vehicles WHERE registration_number = '{_registrationNumber}';").HasRows;
+                    uniqueRego = !_usedRego.Contains(_registrationNumber);
                     if (!uniqueRego)
                         GenerateRego();
                 }
@@ -55,9 +56,10 @@ namespace COMPX323_Generator.Entity
                 string comm = $@"INSERT INTO A_Vehicles (registration_number, asset_id) VALUES (
                 '{_registrationNumber}',
                 {_newestID}
-                );";
+                )";
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+                _usedRego.Add(_registrationNumber);
             }
             else
             {

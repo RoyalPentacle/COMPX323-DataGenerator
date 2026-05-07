@@ -11,6 +11,7 @@ namespace COMPX323_Generator.Entity
     public class Firearm : Asset
     {
         private string _serialNumber;
+        private static HashSet<string> _usedSerial = new HashSet<string>();
         
         public string SerialNumber
         {
@@ -43,7 +44,7 @@ namespace COMPX323_Generator.Entity
                 bool uniqueSerial = false;
                 while (!uniqueSerial)
                 {
-                    uniqueSerial = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT serial_number FROM A_Firearms WHERE serial_number = '{_serialNumber}';").HasRows;
+                    uniqueSerial = !_usedSerial.Contains(_serialNumber);
                     if (!uniqueSerial)
                         GenerateSerial();
                 }
@@ -55,9 +56,10 @@ namespace COMPX323_Generator.Entity
                 string comm = $@"INSERT INTO A_Firearms (serial_number, asset_id) VALUES (
                 '{_serialNumber}',
                 {_newestID}
-                );";
+                )";
                 Debug.WriteLine(comm);
                 Form_DataGenerator.ExecuteDBCommand(comm);
+                _usedSerial.Add(_serialNumber);
             }
             else
             {

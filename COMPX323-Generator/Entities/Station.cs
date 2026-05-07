@@ -13,6 +13,7 @@ namespace COMPX323_Generator.Entity
         private string _address;
         private static string[] _addressStreetTypes = { " Road Station, ", " Street Station, ", " Avenue Station, ", " Crescent Station, ", " Place Station," , " Boulevard Station, " };
 
+        private static HashSet<string> _usedAddress = new HashSet<string>();
         public string Address
         {
             get { return _address; }
@@ -43,7 +44,7 @@ namespace COMPX323_Generator.Entity
                 bool uniqueAddress = false;
                 while (!uniqueAddress)
                 {
-                    uniqueAddress = !Form_DataGenerator.ExecuteOracleDBQuery($"SELECT address FROM A_Stations WHERE address = '{_address}';").HasRows;
+                    uniqueAddress = !_usedAddress.Contains(_address);
                     if (!uniqueAddress)
                         GenerateAddress();
                 }
@@ -53,7 +54,10 @@ namespace COMPX323_Generator.Entity
 
                 string comm = $@"INSERT INTO A_Stations (address) VALUES (
                 '{_address}'
-                );";
+                )";
+                Debug.WriteLine(comm);
+                Form_DataGenerator.ExecuteDBCommand(comm);
+                _usedAddress.Add(_address);
             }
             else
             {
