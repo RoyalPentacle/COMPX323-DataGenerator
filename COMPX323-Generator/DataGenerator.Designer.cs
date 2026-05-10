@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_RandomSeed = new System.Windows.Forms.TextBox();
             this.button_Generate = new System.Windows.Forms.Button();
@@ -42,7 +43,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioButton_MongoDB = new System.Windows.Forms.RadioButton();
             this.radioButton_Oracle = new System.Windows.Forms.RadioButton();
+            this.progressBar_Generation = new System.Windows.Forms.ProgressBar();
+            this.label_CurrentStep = new System.Windows.Forms.Label();
+            this.timer_progressUpdate = new System.Windows.Forms.Timer(this.components);
+            this.formDataGeneratorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.formDataGeneratorBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -173,11 +179,38 @@
             this.radioButton_Oracle.Text = "Oracle";
             this.radioButton_Oracle.UseVisualStyleBackColor = true;
             // 
+            // progressBar_Generation
+            // 
+            this.progressBar_Generation.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.formDataGeneratorBindingSource, "ProgressValue", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.progressBar_Generation.Location = new System.Drawing.Point(12, 220);
+            this.progressBar_Generation.Name = "progressBar_Generation";
+            this.progressBar_Generation.Size = new System.Drawing.Size(402, 44);
+            this.progressBar_Generation.TabIndex = 14;
+            // 
+            // label_CurrentStep
+            // 
+            this.label_CurrentStep.AutoSize = true;
+            this.label_CurrentStep.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formDataGeneratorBindingSource, "ProgressText", true));
+            this.label_CurrentStep.Location = new System.Drawing.Point(12, 275);
+            this.label_CurrentStep.Name = "label_CurrentStep";
+            this.label_CurrentStep.Size = new System.Drawing.Size(0, 20);
+            this.label_CurrentStep.TabIndex = 15;
+            // 
+            // timer_progressUpdate
+            // 
+            this.timer_progressUpdate.Tick += new System.EventHandler(this.timerProgressUpdate_Tick);
+            // 
+            // formDataGeneratorBindingSource
+            // 
+            this.formDataGeneratorBindingSource.DataSource = typeof(COMPX323_Generator.Form_DataGenerator);
+            // 
             // Form_DataGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 224);
+            this.ClientSize = new System.Drawing.Size(426, 304);
+            this.Controls.Add(this.label_CurrentStep);
+            this.Controls.Add(this.progressBar_Generation);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.textBox_Password);
             this.Controls.Add(this.textBox_Username);
@@ -197,6 +230,7 @@
             this.Text = "COMPX323 Database Generator";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.formDataGeneratorBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,6 +252,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton radioButton_MongoDB;
         private System.Windows.Forms.RadioButton radioButton_Oracle;
+        private System.Windows.Forms.ProgressBar progressBar_Generation;
+        private System.Windows.Forms.Label label_CurrentStep;
+        private System.Windows.Forms.BindingSource formDataGeneratorBindingSource;
+        private System.Windows.Forms.Timer timer_progressUpdate;
     }
 }
 

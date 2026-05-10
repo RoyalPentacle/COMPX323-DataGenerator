@@ -19,7 +19,9 @@ namespace COMPX323_Generator.Entity
         private static string[] _phonePrefix = { "020", "021", "022", "027", "028" };
         private static string[] _addressStreetTypes = { " Road, ", " Street, ", " Avenue, ", " Crescent, ", " Place, ", " Boulevard, " };
 
-        protected static int _newestID = 0;
+        public static int _newestID = 0;
+
+        public static int FirstEmployeeID;
         
 
         public string FirstName

@@ -42,6 +42,7 @@ namespace COMPX323_Generator.Relational
             List<Issuance> issues = new List<Issuance>();
             for (int i = minID; i < maxID; i++)
             {
+                Form_DataGenerator.UpdateLabel($"Generating Issuance {i + 1}/{Asset._newestID} :: {Form_DataGenerator.GeneratorProgress}/{Form_DataGenerator.GeneratorMaxProgress}");
                 issues.Clear();
                 int year = Form_DataGenerator.GlobalRandom.Next(1970, 1973);
                 int month = Form_DataGenerator.GlobalRandom.Next(1, 13);
@@ -112,6 +113,8 @@ namespace COMPX323_Generator.Relational
                         //MongoDB
                     }
                 }
+                Form_DataGenerator.GeneratorProgress++;
+                Form_DataGenerator.UpdateProgressBar();
 
             }
         }

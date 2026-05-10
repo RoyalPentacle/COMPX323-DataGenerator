@@ -168,6 +168,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\COMPX323_Generator.Entity.Asset.datasource" />
+    <None Include="Properties\DataSources\Form_DataGenerator.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

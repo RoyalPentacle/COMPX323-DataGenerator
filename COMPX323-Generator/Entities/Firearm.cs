@@ -38,7 +38,7 @@ namespace COMPX323_Generator.Entity
             // Query the Serial_Number to ensure it's unique.
             // Reroll it if it isn't.
             // Add the firearm.
-
+            
             if (Form_DataGenerator.OracleDB)
             {
                 bool uniqueSerial = false;
