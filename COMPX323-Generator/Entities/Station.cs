@@ -11,9 +11,14 @@ namespace COMPX323_Generator.Entity
     public class Station
     {
         private string _address;
-        private static string[] _addressStreetTypes = { " Road Station, ", " Street Station, ", " Avenue Station, ", " Crescent Station, ", " Place Station," , " Boulevard Station, " };
+        private static string[] _addressStreetTypes = { " Road Station, ", " Street Station, ", " Avenue Station, ", " Crescent Station, ", " Place Station, " , " Boulevard Station, " };
 
         private static HashSet<string> _usedAddress = new HashSet<string>();
+
+        public static HashSet<string> StationAddresses
+        {
+            get { return _usedAddress; }
+        }
         public string Address
         {
             get { return _address; }

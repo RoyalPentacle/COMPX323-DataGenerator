@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using COMPX323_Generator.Entity;
+using COMPX323_Generator.Relational;
 using Oracle.ManagedDataAccess.Client;
 
 namespace COMPX323_Generator
@@ -63,7 +64,6 @@ namespace COMPX323_Generator
 
         private bool EstablishDBConnection()
         {
-            
             if (textBox_DataSource.Text.Length == 0 || textBox_Username.Text.Length == 0 || textBox_Username.Text.Length == 0)
             {
                 MessageBox.Show("Please enter database credentials.");
@@ -75,6 +75,7 @@ namespace COMPX323_Generator
                 _oracleDB = true;
                 string connString = $"User Id={textBox_Username.Text};Password={textBox_Password.Text};Data Source={textBox_DataSource.Text};";
                 
+
                 try
                 {
                     conn = new OracleConnection(connString);
@@ -169,7 +170,7 @@ namespace COMPX323_Generator
                 date_of_birth DATE
                 )";
 
-                // Constrain ird_number to just numerical inputs, but as a VARCHAR.
+                // Constrain ird_number to the format of an IRD number (***-***-***)
                 string employeeComm = @"CREATE TABLE IF NOT EXISTS A_Employees (
                 ird_number VARCHAR(11) PRIMARY KEY,
                 person_id INTEGER UNIQUE REFERENCES A_Persons(id),
@@ -183,15 +184,16 @@ namespace COMPX323_Generator
 
                 // Consider a constraint to ensure someone doesn't have a new employment while they have an entry
                 // with a null end date.
-                // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
                 string employmentComm = @"CREATE TABLE IF NOT EXISTS A_Employment (
                 ird_number VARCHAR(11) REFERENCES A_Employees(ird_number),
                 station_address VARCHAR(50) REFERENCES A_Stations(address),
                 start_date DATE NOT NULL,
                 end_date DATE,
-                PRIMARY KEY(ird_number, station_address, start_date)
+                PRIMARY KEY(ird_number, start_date)
                 )";
 
+
+                // Constrain type to specific inputs? Domestic, Robbery, Homicide, etc?
                 string incidentComm = @"CREATE TABLE IF NOT EXISTS A_Incidents (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 timestamp DATE NOT NULL,
@@ -201,6 +203,7 @@ namespace COMPX323_Generator
                 )";
 
                 // Constraints on role to act as an enum? Officer, suspect, dispatcher, etc?
+                // Constrain that employees involved had active employment at the time of incident.
                 string involvedComm = @"CREATE TABLE IF NOT EXISTS A_Involved (
                 person_id INTEGER REFERENCES A_Persons(id),
                 incident_id INTEGER REFERENCES A_Incidents(id),
@@ -209,6 +212,7 @@ namespace COMPX323_Generator
                 PRIMARY KEY(person_id, incident_id)
                 )";
 
+                // Constrain type to 'VEHICLE', 'EQUIPMENT', 'FIREARM'
                 string assetComm = @"CREATE TABLE IF NOT EXISTS A_Assets (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 type VARCHAR(10) NOT NULL,
@@ -228,12 +232,13 @@ namespace COMPX323_Generator
                 asset_id INTEGER UNIQUE REFERENCES A_Assets(id)
                 )";
 
+                // Constrain issued and returned date to align with employee employment dates.
                 string issuedComm = @"CREATE TABLE IF NOT EXISTS A_Issued (
                 ird_number VARCHAR(11) REFERENCES A_Employees(ird_number),
                 asset_id INTEGER REFERENCES A_Assets(id),
                 date_issued DATE NOT NULL,
                 date_returned DATE,
-                PRIMARY KEY(ird_number, asset_id, date_issued)
+                PRIMARY KEY(asset_id, date_issued)
                 )";
 
                 ExecuteDBCommand(personComm);
@@ -278,16 +283,16 @@ namespace COMPX323_Generator
                 // All we have to do is initialize a person and they're generated and added.
             }
 
-            // Employees
-            for (int i = 0; i < _numEmployees; i++)
-            {
-                Employee e = new Employee();
-            }
-
             // Stations
             for (int i = 0; i < _numStations; i++)
             {
                 Station s = new Station();
+            }
+
+            // Employees
+            for (int i = 0; i < _numEmployees; i++)
+            {
+                Employee e = new Employee();
             }
 
             // Equipment
@@ -296,17 +301,24 @@ namespace COMPX323_Generator
                 Asset a = new Asset("EQUIPMENT");
             }
 
+            Asset.VehicleIDStart = Asset._newestID + 1;
+
             // Vehicle
             for (int i = 0; i < _numVehicles; i++)
             {
                 Vehicle v = new Vehicle();
             }
 
+            Asset.FirearmIDStart = Asset._newestID + 1;
+
             // Firearm
             for (int i = 0; i < _numFirearms; i++)
             {
                 Firearm f = new Firearm();
             }
+
+            // Refactor this to be part of asset generation, like employment is for employee.
+            Issued iss = new Issued();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using COMPX323_Generator.Entity;
+using COMPX323_Generator.Relational;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,11 @@ namespace COMPX323_Generator.Entity
 
         private static HashSet<string> _usedIRD = new HashSet<string>();
         private static HashSet<string> _usedBadge = new HashSet<string>();
+
+        public static HashSet<string> UsedIRDs
+        {
+            get { return _usedIRD; }
+        }
 
         public string IrdNumber
         {
@@ -43,6 +49,7 @@ namespace COMPX323_Generator.Entity
             _rank = _officerRanks[Form_DataGenerator.GlobalRandom.Next(_officerRanks.Length)];
             GenerateIRD();
             AddDataToTable();
+            Employment emp = new Employment(this);
         }
 
         private void GenerateIRD()

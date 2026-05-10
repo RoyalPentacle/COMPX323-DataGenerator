@@ -13,7 +13,11 @@ namespace COMPX323_Generator.Entity
         protected string _type;
         protected string _model;
 
-        protected static int _newestID = 0;
+        public static int _newestID = 0;
+
+        public static int VehicleIDStart;
+
+        public static int FirearmIDStart;
 
         public string Type
         {
