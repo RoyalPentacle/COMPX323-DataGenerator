@@ -40,7 +40,7 @@ namespace COMPX323_Generator.Entity
                 _model = File.ReadLines(@"Data/vehicles.txt").Skip(Form_DataGenerator.GlobalRandom.Next(97)).FirstOrDefault();
             if (type == "FIREARM")
                 _model = File.ReadLines(@"Data/firearms.txt").Skip(Form_DataGenerator.GlobalRandom.Next(94)).FirstOrDefault();
-
+            _model = _model.Replace("\'", "\'\'");
             AddDataToTable();
         }
 

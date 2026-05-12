@@ -123,7 +123,7 @@ namespace COMPX323_Generator.Entity
             if (Form_DataGenerator.OracleDB)
             {
                 string comm = $@"INSERT INTO A_Incidents (timestamp, type, address, description) VALUES (
-                TO_DATE '{_timestamp.Year}-{_timestamp.Month}-{_timestamp.Day} {_timestamp.Hour}:00:00', 'YYYY-MM-DD HH24:MI:SS',
+                TO_DATE('{_timestamp.Year}-{_timestamp.Month}-{_timestamp.Day} {_timestamp.Hour}:00:00', 'YYYY-MM-DD HH24:MI:SS'),
                 '{_type}',
                 '{_address}',
                 '{_description}'
