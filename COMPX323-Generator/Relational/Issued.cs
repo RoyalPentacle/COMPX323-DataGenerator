@@ -70,8 +70,20 @@ namespace COMPX323_Generator.Relational
                     issues.Add(new Issuance(_dateIssued, _dateReturned));
 
                     year = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Year, DateTime.Now.Year);
-                    month = Form_DataGenerator.GlobalRandom.Next(1, 13);
-                    day = Form_DataGenerator.GlobalRandom.Next(1, 29);
+                    if (year == _dateReturned.Value.Year)
+                    {
+                        month = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Month, 13);
+                        if (month == _dateReturned.Value.Month)
+                        {
+                            day = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Day+1, 29);
+                        }
+                    }
+                    else
+                    {
+                        month = Form_DataGenerator.GlobalRandom.Next(1, 13);
+                        day = Form_DataGenerator.GlobalRandom.Next(1, 29);
+                    }
+
                     _dateIssued = new DateTime(year, month, day);
                     if (year >= DateTime.Now.Year - 1)
                     {
