@@ -30,13 +30,13 @@ namespace COMPX323_Generator
         private static OracleConnection conn;
 
         // Default to small dataset size.
-        private static int _numPersons = 500;
-        private static int _numAssets = 100;
-        private static int _numEmployees = 200;
-        private static int _numStations = 100;
-        private static int _numFirearms = 500;
-        private static int _numVehicles = 300;
-        private static int _numIncidents = 250;
+        private static int _numPersons = 20000;
+        private static int _numAssets = 15000;
+        private static int _numEmployees = 10000;
+        private static int _numStations = 1000;
+        private static int _numFirearms = 7500;
+        private static int _numVehicles = 5000;
+        private static int _numIncidents = 750000;
 
         private static bool _oracleDB = true;
 

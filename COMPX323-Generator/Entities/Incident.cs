@@ -62,8 +62,8 @@ namespace COMPX323_Generator.Entity
             _address += _addressStreetTypes[Form_DataGenerator.GlobalRandom.Next(_addressStreetTypes.Length)];
             _address += File.ReadLines(@"Data/cities.txt").Skip(Form_DataGenerator.GlobalRandom.Next(96)).FirstOrDefault();
 
-            int numCiv = Form_DataGenerator.GlobalRandom.Next(3);
-            int numCop = Form_DataGenerator.GlobalRandom.Next(5);
+            int numCiv = Form_DataGenerator.GlobalRandom.Next(1,4);
+            int numCop = Form_DataGenerator.GlobalRandom.Next(1,6);
 
             switch (Form_DataGenerator.GlobalRandom.Next(4))
             {
