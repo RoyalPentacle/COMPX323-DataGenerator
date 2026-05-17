@@ -36,7 +36,7 @@ namespace COMPX323_Generator
         private static int _numStations = 1000;
         private static int _numFirearms = 7500;
         private static int _numVehicles = 5000;
-        private static int _numIncidents = 750000;
+        private static int _numIncidents = 75000;
 
         private static bool _oracleDB = true;
 
@@ -300,8 +300,23 @@ namespace COMPX323_Generator
         {
             if (largeDataset)
             {
-                // set the size variables to big.
-                // we auto determine the number of entries for the relational tables.
+                _numPersons = 20000;
+                _numAssets = 15000;
+                _numEmployees = 10000;
+                _numStations = 1000;
+                _numFirearms = 7500;
+                _numVehicles = 5000;
+                _numIncidents = 75000;
+            }
+            else
+            {
+                _numPersons = 20;
+                _numAssets = 20;
+                _numEmployees = 10;
+                _numStations = 5;
+                _numFirearms = 15;
+                _numVehicles = 10;
+                _numIncidents = 50;
             }
         }
 
