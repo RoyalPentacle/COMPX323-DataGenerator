@@ -75,7 +75,16 @@ namespace COMPX323_Generator.Relational
                         month = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Month, 13);
                         if (month == _dateReturned.Value.Month)
                         {
-                            day = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Day+1, 29);
+                            day = Form_DataGenerator.GlobalRandom.Next(_dateReturned.Value.Day, 29);
+                            if (day == _dateReturned.Value.Day)
+                            {
+                                month += 1;
+                                if (month > 12)
+                                {
+                                    month = 1;
+                                    year += 1;
+                                }
+                            }
                         }
                     }
                     else
