@@ -150,8 +150,8 @@ namespace COMPX323_Generator
             }
             else
             {
-                // "mongodb+srv://patrickfawcett_db_user:PGtx5GiOBAWNUEOD@cluster0.8rpfafg.mongodb.net/?appName=Cluster0";
-                string connString = "mongodb+srv://patrickfawcett_db_user:PGtx5GiOBAWNUEOD@cluster0.8rpfafg.mongodb.net/?appName=Cluster0"; //$"mongodb+srv://{textBox_Username.Text}:{textBox_Password.Text}@{textBox_DataSource.Text}";
+
+                string connString = $"mongodb+srv://{textBox_Username.Text}:{textBox_Password.Text}@{textBox_DataSource.Text}";
                 MongoClientSettings settings = MongoClientSettings.FromConnectionString(connString);
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 mongoConn = new MongoClient(settings);
