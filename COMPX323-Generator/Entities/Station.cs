@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +22,7 @@ namespace COMPX323_Generator.Entity
         {
             get { return _usedAddress; }
         }
+
         public string Address
         {
             get { return _address; }
@@ -31,6 +35,7 @@ namespace COMPX323_Generator.Entity
             // Query the address to check if it already exists
             // Reroll if it already exists
             // Construct sql command to add station to table.
+
             GenerateAddress();
             AddDataToTable();
         }
@@ -44,16 +49,16 @@ namespace COMPX323_Generator.Entity
 
         private void AddDataToTable()
         {
+            bool uniqueAddress = false;
+            while (!uniqueAddress)
+            {
+                uniqueAddress = !_usedAddress.Contains(_address);
+                if (!uniqueAddress)
+                    GenerateAddress();
+            }
+
             if (Form_DataGenerator.OracleDB)
             {
-                bool uniqueAddress = false;
-                while (!uniqueAddress)
-                {
-                    uniqueAddress = !_usedAddress.Contains(_address);
-                    if (!uniqueAddress)
-                        GenerateAddress();
-                }
-
                 Debug.WriteLine("-----Station");
                 Debug.WriteLine($"Address: {_address}");
 
@@ -61,13 +66,14 @@ namespace COMPX323_Generator.Entity
                 '{_address}'
                 )";
                 Debug.WriteLine(comm);
-                Form_DataGenerator.ExecuteDBCommand(comm);
-                _usedAddress.Add(_address);
+                if (Form_DataGenerator.SQLWriter != null)
+                {
+                    Form_DataGenerator.SQLWriter.Write(comm);
+                    Form_DataGenerator.SQLWriter.WriteLine(";");
+                }
+                Form_DataGenerator.ExecuteOracleCommand(comm);
             }
-            else
-            {
-                //MongoDB
-            }
+            _usedAddress.Add(_address);
         }
     }
 }

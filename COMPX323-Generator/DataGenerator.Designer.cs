@@ -44,9 +44,9 @@
             this.radioButton_MongoDB = new System.Windows.Forms.RadioButton();
             this.radioButton_Oracle = new System.Windows.Forms.RadioButton();
             this.progressBar_Generation = new System.Windows.Forms.ProgressBar();
+            this.formDataGeneratorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label_CurrentStep = new System.Windows.Forms.Label();
             this.timer_progressUpdate = new System.Windows.Forms.Timer(this.components);
-            this.formDataGeneratorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.formDataGeneratorBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -166,6 +166,7 @@
             this.radioButton_MongoDB.TabIndex = 1;
             this.radioButton_MongoDB.Text = "MongoDB";
             this.radioButton_MongoDB.UseVisualStyleBackColor = true;
+            this.radioButton_MongoDB.CheckedChanged += new System.EventHandler(this.radioButton_MongoDB_CheckedChanged);
             // 
             // radioButton_Oracle
             // 
@@ -187,6 +188,10 @@
             this.progressBar_Generation.Size = new System.Drawing.Size(402, 44);
             this.progressBar_Generation.TabIndex = 14;
             // 
+            // formDataGeneratorBindingSource
+            // 
+            this.formDataGeneratorBindingSource.DataSource = typeof(COMPX323_Generator.Form_DataGenerator);
+            // 
             // label_CurrentStep
             // 
             this.label_CurrentStep.AutoSize = true;
@@ -199,10 +204,6 @@
             // timer_progressUpdate
             // 
             this.timer_progressUpdate.Tick += new System.EventHandler(this.timerProgressUpdate_Tick);
-            // 
-            // formDataGeneratorBindingSource
-            // 
-            this.formDataGeneratorBindingSource.DataSource = typeof(COMPX323_Generator.Form_DataGenerator);
             // 
             // Form_DataGenerator
             // 

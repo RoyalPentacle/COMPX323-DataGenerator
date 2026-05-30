@@ -60,7 +60,12 @@ namespace COMPX323_Generator.Entity
                 )";
 
                 Debug.WriteLine(comm);
-                Form_DataGenerator.ExecuteDBCommand(comm);
+                if (Form_DataGenerator.SQLWriter != null)
+                {
+                    Form_DataGenerator.SQLWriter.Write(comm);
+                    Form_DataGenerator.SQLWriter.WriteLine(";");
+                }
+                Form_DataGenerator.ExecuteOracleCommand(comm);
                 _newestID++;
             }
             else

@@ -1,16 +1,44 @@
-﻿using COMPX323_Generator.Relational;
+﻿using COMPX323_Generator.Entity;
+using COMPX323_Generator.Relational;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMPX323_Generator.Entity
+namespace COMPX323_Generator.MongoEntity
 {
-    public class Incident
+    public class MongoIncident
     {
+        public class MongoInvolved
+        {
+            [BsonElement("person_id")]
+            public int PersonID;
+            [BsonElement("first_name")]
+            public string FirstName;
+
+            [BsonElement("role")]
+            public string Role;
+
+            [BsonElement("description")]
+            public string Description;
+
+            public MongoInvolved(int personID, string firstName, string role, string description)
+            {
+                PersonID = personID;
+                FirstName = firstName;
+                Role = role;
+                Description = description;
+            }
+        }
+
         private DateTime _timestamp;
         private string _type;
         private string _address;
@@ -19,31 +47,54 @@ namespace COMPX323_Generator.Entity
 
         private static int _newestID;
 
+        private List<MongoInvolved> _involved;
+
+        [BsonElement("id")]
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        [BsonElement("involved")]
+        public List<MongoInvolved> Involved
+        {
+            get { return _involved; }
+            set { _involved = value; }
+        }
+
+
+        
+        [BsonElement("timestamp")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Timestamp
         {
             get { return _timestamp; }
             set { _timestamp = value; }
         }
 
+        [BsonElement("type")]
         public string Type
         {
             get { return _type; }
             set { _type = value; }
         }
 
+        [BsonElement("address")]
         public string Address
         {
             get { return _address; }
             set { _address = value; }
         }
 
+        [BsonElement("description")]
         public string Description
         {
             get { return _description; }
             set { _description = value; }
         }
 
-        public Incident()
+        public MongoIncident()
         {
             // randomize timestamp, address
             // description template will list number of officers, etc, involved
@@ -65,6 +116,9 @@ namespace COMPX323_Generator.Entity
             int numCiv = Form_DataGenerator.GlobalRandom.Next(1,4);
             int numCop = Form_DataGenerator.GlobalRandom.Next(1,6);
 
+            Id = _newestID;
+            _newestID++;
+            _involved = new List<MongoInvolved>();
             switch (Form_DataGenerator.GlobalRandom.Next(4))
             {
                 case 0: 
@@ -85,34 +139,45 @@ namespace COMPX323_Generator.Entity
                     break;
             }
 
-            Debug.WriteLine("-----Incident");
-            Debug.WriteLine($"Timestamp: {_timestamp.ToString("g")}");
-            Debug.WriteLine($"Address: {_address}");
-            Debug.WriteLine($"Type: {_type}");
-            Debug.WriteLine($"Description: {_description}");
-
-            AddDataToTable();
-            _newestID++;
             HashSet<int> people = new HashSet<int>();
             for (int i = 0; i < numCiv; i++)
             {
-                int newID = Form_DataGenerator.GlobalRandom.Next(1, Person.FirstEmployeeID);
-                while (people.Contains(newID))
+                MongoPerson p = Form_DataGenerator.MongoPersons[Form_DataGenerator.GlobalRandom.Next(0, MongoPerson.FirstEmployeeID)];
+                while (people.Contains(p.Id))
                 {
-                    newID = Form_DataGenerator.GlobalRandom.Next(1, Person.FirstEmployeeID);
+                    p = Form_DataGenerator.MongoPersons[Form_DataGenerator.GlobalRandom.Next(0, MongoPerson.FirstEmployeeID)];
                 }
-                people.Add(newID);
-                Involved inc = new Involved(newID, _newestID, false);
+                people.Add(p.Id);
+                string role = "Witness";
+                string desc = "YOU SHOULD NEVER SEE THIS STRING";
+                switch (Form_DataGenerator.GlobalRandom.Next(3))
+                {
+                    case 0:
+                        role = "Witness";
+                        desc = "This guy saw EVERYTHING. Should really interview him.";
+                        break;
+                    case 1:
+                        role = "Suspect";
+                        desc = "This guy may have done the deed.";
+                        break;
+                    case 2:
+                        role = "Victim";
+                        desc = "This guy got it rough, what a shame.";
+                        break;
+                }
+                _involved.Add(new MongoInvolved(p.Id, p.FirstName, role, desc));
+                p.Involvement.Add(new MongoPerson.MongoPersonInvolvement(Id, _timestamp, _address));
             }
             for (int i = 0; i < numCop; i++)
             {
-                int newID = Form_DataGenerator.GlobalRandom.Next(Person.FirstEmployeeID, Person._newestID + 1);
-                while (people.Contains(newID))
+                MongoPerson p  = Form_DataGenerator.MongoPersons[Form_DataGenerator.GlobalRandom.Next(MongoPerson.FirstEmployeeID, Form_DataGenerator.MongoPersons.Count)];
+                while (people.Contains(p.Id))
                 {
-                    newID = Form_DataGenerator.GlobalRandom.Next(Person.FirstEmployeeID, Person._newestID + 1);
+                    p = Form_DataGenerator.MongoPersons[Form_DataGenerator.GlobalRandom.Next(MongoPerson.FirstEmployeeID, Form_DataGenerator.MongoPersons.Count)];
                 }
-                people.Add(newID);
-                Involved inc = new Involved(newID, _newestID, true);
+                people.Add(p.Id);
+                _involved.Add(new MongoInvolved(p.Id, p.FirstName, "Officer", "This guy showed up and saved the day, truly heroic"));
+                p.Involvement.Add(new MongoPerson.MongoPersonInvolvement(Id, _timestamp, _address));
             }
         }
 

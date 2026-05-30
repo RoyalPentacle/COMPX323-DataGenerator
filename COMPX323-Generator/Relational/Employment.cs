@@ -50,7 +50,7 @@ namespace COMPX323_Generator.Relational
             {
                 employmentCount++;
             }
-            employmentCount = Math.Max(5, employmentCount);
+            employmentCount = Math.Min(5, employmentCount);
             _startDate = new DateTime(Form_DataGenerator.GlobalRandom.Next(e.DateOfBirth.Year + 18, DateTime.Now.Year), Form_DataGenerator.GlobalRandom.Next(1, 13), Form_DataGenerator.GlobalRandom.Next(1, 29));
             while (employmentCount > 0)
             {
@@ -92,7 +92,7 @@ namespace COMPX323_Generator.Relational
                 {((_employmentRecords[i].End != null) ? $"DATE '{_employmentRecords[i].End.Value.Year}-{_employmentRecords[i].End.Value.Month}-{_employmentRecords[i].End.Value.Day}'" : "null")}
                 )";
                     Debug.WriteLine(comm);
-                    Form_DataGenerator.ExecuteDBCommand(comm);
+                    Form_DataGenerator.ExecuteOracleCommand(comm);
                 }
                 else
                 {
